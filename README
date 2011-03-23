@@ -1,0 +1,20 @@
+Iometer is a very powerful IO subsystem stress tool. It outputs all test results to a csv file. This file isn't very well formattted for things like database imports. This progam will dump a CSV file that is a bit easier to manage or actually import the data into a SQL Server database.
+
+IometerParser 1.0
+Usage: IometerParser [OPTIONS]
+Process output of the Iometer program generated CSV file.
+
+Options:
+  -s, --sqlserver[=VALUE]    The SQL Server you want to import the data into.
+  -u, --sqluser[=VALUE]      If using SQL Server authentication specify a user
+  -p, --sqlpass[=VALUE]      If using SQL Server authentication specify a
+                               password
+  -d, --databasename[=VALUE] The database you want to import the data into.
+  -f, --Iometerfilename[=VALUE]
+                             The file name you want to import the data from.
+  -a, --Iometerfiledirectory[=VALUE]
+                             The directory containing the files you want to
+                               import the data from.
+  -o, --csvoutputfilename[=VALUE]
+                             The file name you want to export the data to.
+  -?, -h, --help             show this message and exit
