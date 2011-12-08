@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using NDesk.Options;
 
 namespace IometerParser
@@ -13,13 +14,15 @@ namespace IometerParser
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("IOMeterParser 1.0");
+            Version v = Assembly.GetExecutingAssembly().GetName().Version;
+            Console.WriteLine("IometerParser.exe " + v.Major + "." + v.Minor + "." + v.Build + "." + v.Minor);
             int parseerr = ParseCommandLine(args);
             if (parseerr == 1)
                 return;
 
             var importFileList = new List<string>();
 
+            #region constructors
             //the data holder
             var ioMeterDataSet = new DataSet();
             DataTable ioMeterTestHeader = ioMeterDataSet.Tables.Add();
@@ -105,7 +108,7 @@ namespace IometerParser
             ioMeterTestRecordDetail.Columns.Add("PacketErrors", typeof (long));
             ioMeterTestRecordDetail.Columns.Add("SegmentsRetransmitted_Second", typeof (decimal));
             ioMeterTestRecordDetail.Columns.Add("DateStamp", typeof (DateTime));
-
+            #endregion
 
             if (GlobalVariables.IOMeterCSVDirectoryName != null)
             {
@@ -114,7 +117,9 @@ namespace IometerParser
                 Console.WriteLine("Directory To Process:" + GlobalVariables.IOMeterCSVDirectoryName);
                 try
                 {
-                    importFileList.AddRange(Directory.GetFiles(GlobalVariables.IOMeterCSVDirectoryName).Where(fileName => !FileInUse(fileName)));
+                    importFileList.AddRange(
+                        Directory.GetFiles(GlobalVariables.IOMeterCSVDirectoryName).Where(
+                            fileName => !FileInUse(fileName)));
                 }
                 catch (Exception e)
                 {
